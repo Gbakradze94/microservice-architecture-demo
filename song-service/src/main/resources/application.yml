@@ -1,0 +1,13 @@
+server:
+  port: 8082
+# datasource configuration
+spring:
+  application:
+    name: song-service
+
+song-service:
+  path: /api/v1/songs
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
