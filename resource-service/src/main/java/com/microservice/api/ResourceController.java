@@ -6,7 +6,7 @@ import com.microservice.domain.ResourceResponse;
 import com.microservice.service.ResourceService;
 import com.microservice.validation.Mp3FileType;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+//import lombok.extern.slf4j.Slf4j;
 import org.apache.tika.exception.TikaException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/resources")
 @RequiredArgsConstructor
-@Slf4j
+//@Slf4j
 public class ResourceController {
     private final ResourceService resourceService;
 
