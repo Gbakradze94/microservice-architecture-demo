@@ -3,10 +3,8 @@ services:
   songservicedb:
     image: postgres:latest
     ports:
-      - "5432:5432"
+      - "5431:5432"
     environment:
-      CONFIGSERVER_URI: "http://configserver:8071"
-      CONFIGSERVER_PORT: "8071"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "root"
       POSTGRES_DB:       "songservicedb"
@@ -17,21 +15,23 @@ services:
       backend:
         aliases:
           - "songservicedb"
-#    healthcheck:
-#      test: ["CMD-SHELL", "pg_isready -U postgres"]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 5
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   resourceservicedb:
     image: postgres:latest
     ports:
-      - "5431:5431"
+      - "5432:5432"
     environment:
-      CONFIGSERVER_URI: "http://configserver:8071"
-      CONFIGSERVER_PORT: "8071"
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "root"
       POSTGRES_DB: "resourceservicedb"
+    networks:
+      backend:
+        aliases:
+          - "resourceservicedb"
 
   configserver:
     image: sparser/configserver:0.0.1-SNAPSHOT
@@ -43,34 +43,6 @@ services:
       backend:
         aliases:
           - "configserver"
-
-
-  songservice:
-    image: sparser/song-service:0.0.1-SNAPSHOT
-    ports:
-      - "8081:8081"
-    depends_on:
-      songservicedb:
-        condition: service_started
-    #    environment:
-#      ENCRYPT_KEY: "fje83Ki8403Iod87dne7Yjsl3THueh48jfuO9j4U2hf64Lo"
-    networks:
-      backend:
-        aliases:
-          - "songservice"
-
-  resourceservice:
-    image: sparser/resource-service:0.0.1-SNAPSHOT
-    ports:
-      - "8082:8082"
-    depends_on:
-      resourceservicedb:
-        condition: service_started
-    networks:
-      backend:
-        aliases:
-          - "resourceservice"
-
 
   eurekaserver:
     image: sparser/eureka-discovery-service:0.0.1-SNAPSHOT
@@ -108,40 +80,44 @@ services:
       backend:
         aliases:
           - "gateway"
-#  licensingservice:
-#    image: ostock/licensing-service:0.0.3-SNAPSHOT
-#    environment:
-#      PROFILE: "dev"
-#      CONFIGSERVER_URI: "http://configserver:8071"
-#      CONFIGSERVER_PORT:   "8071"
-#      DATABASESERVER_PORT: "5432"
-#      ENCRYPT_KEY:       "IMSYMMETRIC"
-#    depends_on:
-#      database:
-#        condition: service_healthy
-#      configserver:
-#        condition: service_started
-#    ports:
-#      - "8080:8080"
-#    networks:
-#      - backend
-#  organizationservice:
-#    image: ostock/organization-service:0.0.1-SNAPSHOT
-#    environment:
-#      PROFILE: "dev"
-#      CONFIGSERVER_URI: "http://configserver:8071"
-#      CONFIGSERVER_PORT:   "8071"
-#      DATABASESERVER_PORT: "5432"
-#      ENCRYPT_KEY:       "IMSYMMETRIC"
-#    depends_on:
-#      database:
-#        condition: service_healthy
-#      configserver:
-#        condition: service_started
-#    ports:
-#      - "8081:8081"
-#    networks:
-#      - backend
+
+
+  songservice:
+    image: sparser/song-service:0.0.1-SNAPSHOT
+    environment:
+      PROFILE: "dev"
+      CONFIGSERVER_URI: "http://configserver:8071"
+      CONFIGSERVER_PORT: "8071"
+      DATABASESERVER_PORT: "5431"
+    depends_on:
+      songservicedb:
+        condition: service_healthy
+      configserver:
+        condition: service_started
+    ports:
+      - "8081:8081"
+    #    environment:
+#      ENCRYPT_KEY: "fje83Ki8403Iod87dne7Yjsl3THueh48jfuO9j4U2hf64Lo"
+    networks:
+      - backend
+
+  resourceservice:
+    image: sparser/resource-service:0.0.1-SNAPSHOT
+    environment:
+      PROFILE: "dev"
+      CONFIGSERVER_URI: "http://configserver:8071"
+      CONFIGSERVER_PORT: "8071"
+      DATABASESERVER_PORT: "5432"
+#      ENCRYPT_KEY: "IMSYMMETRIC"
+    ports:
+      - "8082:8082"
+    depends_on:
+      resourceservicedb:
+        condition: service_started
+      configserver:
+        condition: service_started
+    networks:
+      - backend
 
 networks:
   backend:

@@ -1,12 +1,13 @@
-server:
-  port: 8082
-# datasource configuration
 spring:
   application:
     name: song-service
-
   cloud:
     config:
       uri: http://configserver:8071
-song-service:
-  path: /api/v1/songs
+
+logging:
+  level:
+    com.netflix: WARN
+    org.springframework.web: WARN
+    com.optimagrowth: DEBUG
+

@@ -10,11 +10,9 @@ spring:
 
 logging:
   level:
-    org:
-      hibernate: INFO
-      SQL: DEBUG
-      cache: DEBUG
-      stat: DEBUG
+    com.netflix: WARN
+    org.springframework.web: WARN
+    com.optimagrowth: DEBUG
 
 song-service:
   path: /api/v1/songs
