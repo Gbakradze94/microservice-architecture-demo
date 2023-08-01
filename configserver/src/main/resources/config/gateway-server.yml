@@ -1,6 +1,6 @@
 server:
   port: 8072
-
+ 
 eureka:
   instance:
     preferIpAddress: true
@@ -9,31 +9,32 @@ eureka:
     fetchRegistry: true
     serviceUrl:
       defaultZone: http://eurekaserver:8070/eureka/
-
-
+      
+ 
 spring:
   cloud:
     loadbalancer.ribbon.enabled: false
     gateway:
-      routes:
+        routes:
         - id: song-service
           uri: lb://song-service
           predicates:
-            - Path=/song-service/**
+          - Path=/song/**
           filters:
-            - RewritePath=/song-service/(?<path>.*), /$\{path}
-        - id: resource-service
-          uri: lb://resource-service
+          - StripPrefix=1
+        - id: licensing-service
+          uri: lb://licensing-service
           predicates:
-            - Path=/resource-service/**
+          - Path=/license/**
           filters:
-            - RewritePath=/resource-service/(?<path>.*), /$\{path}
+          - RewritePath=/license/(?<path>.*), /$\{path}
 
 
-
+       
 management:
   endpoints:
     web:
       exposure:
         include: "*"
-
+        
+        
