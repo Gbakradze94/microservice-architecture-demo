@@ -27,6 +27,8 @@
         <module>eurekaserver</module>
         <module>song-service</module>
         <module>gatewayserver</module>
+        <module>resource-service</module>
+        <module>resourceprocessor</module>
     </modules>
 
     <build>
