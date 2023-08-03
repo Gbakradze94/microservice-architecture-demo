@@ -1,7 +1,7 @@
 package com.microservice.resourceservice.validation;
 
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 
 public class Mp3Validator implements ConstraintValidator<Mp3FileType, String> {

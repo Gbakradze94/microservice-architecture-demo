@@ -1,0 +1,27 @@
+server:
+  port: 8081
+# application configuration
+logging:
+  level:
+    root: DEBUG
+    org:
+      hibernate: INFO
+      hibernate.SQL: DEBUG
+      hibernate.cache: DEBUG
+      hibernate.stat: DEBUG
+
+# datasource configuration
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/resourceservice
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+    maxIdle: 30
+    maxWait: 10000
+    maxActive: 100
+  jpa.hibernate.ddl-auto: create-drop
+  database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+song-service:
+  path: /api/v1/songs

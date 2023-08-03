@@ -43,6 +43,8 @@ public class ResourceService {
     private final BodyContentHandler bodyContentHandler;
     private final Metadata metadata;
     private final WebClient webClient;
+    private final Mp3Parser mp3Parser;
+    private final ParseContext parseContext;
 
     public ResourceResponse saveResource(MultipartFile multipartFile) throws IOException, TikaException, SAXException {
 
@@ -64,16 +66,17 @@ public class ResourceService {
     }
 
     public Resource getResource(Long id) {
-        return resourceRepository.findById(Math.toIntExact(id))
+        return songRecordRepository.findById(Math.toIntExact(id))
+                .map(songRecord -> Resource.builder().id(songRecord.getSongId()).build())
                 .orElseThrow(() -> new RuntimeException("Resource with this id could not be found"));
     }
 
     private SongRecord extractSongRecordFromMetadata(MultipartFile multipartFile) throws IOException, TikaException, SAXException {
         File songFile = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         FileInputStream inputstream = new FileInputStream(BASE_MP3_FILE_PATH + songFile.getPath());
-        ParseContext pcontext = new ParseContext();
-        Mp3Parser Mp3Parser = new Mp3Parser();
-        Mp3Parser.parse(inputstream, bodyContentHandler, metadata, pcontext);
+//        ParseContext pcontext = new ParseContext();
+//        Mp3Parser Mp3Parser = new Mp3Parser();
+        mp3Parser.parse(inputstream, bodyContentHandler, metadata, parseContext);
         return SongRecord.builder()
                 .name(metadata.get("dc:title"))
                 .resourceId(new Random().nextInt())
