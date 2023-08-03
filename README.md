@@ -6,12 +6,12 @@ multiple microservices to communicate with each other. It contains the following
 1. A Spring Cloud Config server that is deployed as Docker container and can manage a services configuration information using a file system or GitHub-based repository.
 2. A Eureka server running as a Spring-Cloud based service. This service will allow multiple service instances to register with it. Clients that need to call a service will use Eureka to lookup the physical location of the target service.
 3. A API Gateway. All of our microservices can be routed through the gateway and have pre, response and post policies enforced on the calls.
-4. A organization service that will manage organization data used within Ostock.
-5. A licensing service that will manage licensing data used within Ostock.
-6. A Postgres SQL database used to hold the data.
+4. A song service
+5. A resource service.
+6. A Postgres SQL database used to hold the data for song service.
 
 ## Initial Configuration
-1.	Apache Maven (http://maven.apache.org)  All of the code examples in this book have been compiled with Java version 11.
+1.	Apache Maven (http://maven.apache.org)  All of the code in this repository have been compiled with Java version 11.
 2.	Git Client (http://git-scm.com)
 3.  Docker(https://www.docker.com/products/docker-desktop)
 
@@ -24,11 +24,11 @@ To clone and run this application, you'll need [Git](https://git-scm.com), [Mave
 # Clone this repository
 $ git clone https://github.com/ihuaylupo/manning-smia
 
-# Go into the repository, by changing to the directory where you have downloaded the 
-# chapter 9 source code and select whether you want the initial or final configuration
-$ cd chapter9
+# Navigate to the parent directory 
+# to build and run docker image
+$ cd microservice-architecture-demo
 
-# To build the code examples for Chapter 8 as a docker image, open a command-line 
+# To build the code examples as a docker image, open a command-line 
 # window and execute the following command:
 $ mvn clean package dockerfile:build
 
