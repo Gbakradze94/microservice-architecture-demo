@@ -1,15 +1,14 @@
-## Spring Microservices in Action - Second Edition. Chapter 9
+## Microservice Architecture Demo
 
 # Introduction
-Welcome to Spring Microservices in Action, Chapter 9.  Chapter 9 demonstrates how to build security with your services using Spring Cloud Security and KeyCloak.  In this chapter we build an Authentication and authorization server using KeyCloak. 
-
-1. A KeyCloak Authentication and Authorization server.
-2. A Spring Cloud Config server that is deployed as Docker container and can manage a services configuration information using a file system or GitHub-based repository.
-3. A Eureka server running as a Spring-Cloud based service. This service will allow multiple service instances to register with it. Clients that need to call a service will use Eureka to lookup the physical location of the target service.
-4. A API Gateway. All of our microservices can be routed through the gateway and have pre, response and post policies enforced on the calls.
-5. A organization service that will manage organization data used within Ostock.
-6. A licensing service that will manage licensing data used within Ostock.
-7. A Postgres SQL database used to hold the data.
+Welcome to Microservice Architecture Demo Project. This project demonstrates how to build 
+multiple microservices to communicate with each other. It contains the following modules:
+1. A Spring Cloud Config server that is deployed as Docker container and can manage a services configuration information using a file system or GitHub-based repository.
+2. A Eureka server running as a Spring-Cloud based service. This service will allow multiple service instances to register with it. Clients that need to call a service will use Eureka to lookup the physical location of the target service.
+3. A API Gateway. All of our microservices can be routed through the gateway and have pre, response and post policies enforced on the calls.
+4. A organization service that will manage organization data used within Ostock.
+5. A licensing service that will manage licensing data used within Ostock.
+6. A Postgres SQL database used to hold the data.
 
 ## Initial Configuration
 1.	Apache Maven (http://maven.apache.org)  All of the code examples in this book have been compiled with Java version 11.
@@ -54,7 +53,7 @@ You can find the database script as well in the docker directory.
 
 ## Contact
 
-I'd like you to send me an email on <illaryhs@gmail.com> about anything you'd want to say about this software.
+I'd like you to send me an email on <Bakradzegeorge17.com> about anything you'd want to say about this software.
 
 ### Contributing
 Feel free to file an issue if it doesn't work for your code sample. Thanks.
