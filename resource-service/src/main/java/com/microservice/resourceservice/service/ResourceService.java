@@ -1,5 +1,6 @@
 package com.microservice.resourceservice.service;
 
+import com.microservice.resourceservice.config.CloudStorageRepository;
 import com.microservice.resourceservice.domain.Resource;
 import com.microservice.resourceservice.domain.ResourceResponse;
 import com.microservice.resourceservice.domain.SongRecord;
@@ -41,13 +42,13 @@ public class ResourceService {
     private final ResourceRepository resourceRepository;
     private final SongRecordRepository songRecordRepository;
     private final BodyContentHandler bodyContentHandler;
+    private final S3StorageService s3StorageService;
     private final Metadata metadata;
     private final WebClient webClient;
     private final Mp3Parser mp3Parser;
     private final ParseContext parseContext;
 
     public ResourceResponse saveResource(MultipartFile multipartFile) throws IOException, TikaException, SAXException {
-
 
         SongRecord songRecord = extractSongRecordFromMetadata(multipartFile);
 
@@ -59,6 +60,8 @@ public class ResourceService {
                 .body(Mono.just(songRecord), SongRecord.class)
                 .retrieve()
                 .bodyToMono(SongRecordId.class);
+
+       // String uploadedFilePath = s3StorageService.save(multipartFile);
 
         return ResourceResponse.builder()
                 .id(songRecordId.block().getId())
@@ -96,5 +99,10 @@ public class ResourceService {
                 .mapToObj(i -> Integer.parseInt(String.valueOf(i)))
                 .map(ResourceResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    public String uploadFile(MultipartFile multipartFile) throws IOException {
+        String fileKey = s3StorageService.upload(multipartFile);
+        return fileKey;
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -47,5 +48,10 @@ public class ResourceController {
     @ResponseStatus(HttpStatus.OK)
     public List<ResourceResponse> delete(@RequestParam("id") int[] ids) {
         return resourceService.deleteByIds(ids);
+    }
+
+    @PutMapping("/upload")
+    public String uploadFile(@RequestParam("multipartFile") @Mp3FileType MultipartFile multipartFile) throws IOException {
+        return resourceService.uploadFile(multipartFile);
     }
 }
