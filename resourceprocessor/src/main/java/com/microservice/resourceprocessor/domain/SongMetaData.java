@@ -1,18 +1,21 @@
 package com.microservice.resourceprocessor.domain;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.persistence.Column;
-import javax.persistence.Lob;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SongRecord {
+public class SongMetaData {
     private Long id;
-
+    private long resourceId;
+    private String name;
+    private String artist;
+    private String album;
+    private String length;
+    private String year;
+    private byte[] data;
 }

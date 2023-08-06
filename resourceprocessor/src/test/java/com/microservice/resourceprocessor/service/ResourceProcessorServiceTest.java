@@ -17,10 +17,7 @@ import org.springframework.util.ResourceUtils;
 import org.xml.sax.SAXException;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -60,26 +57,17 @@ public class ResourceProcessorServiceTest {
 
     @Test
     void whenCalled_shouldProcessResource() throws IOException, TikaException, SAXException {
-        ResourceRecord resourceRecord = new ResourceRecord(1L);
+        ResourceRecord resourceRecord = ResourceRecord.builder().id(1L).build();
         File testFile = initializeTestFile();
-
 
         when(resourceServiceClient.getById(resourceRecord.getId()))
                 .thenReturn(Optional.of(testFile));
 
-        boolean isFileProcessed = true;
-                //resourceProcessorService.processResource(resourceRecord);
-
-        // TODO:  Fix song service client to pass the test. boolean set to true temporarily to allow
-        // building docker image
+        boolean isFileProcessed = resourceProcessorService.processResource(resourceRecord);
         assertTrue(isFileProcessed);
     }
 
     private File initializeTestFile() throws IOException {
-        File testFile = ResourceUtils.getFile("src/test/resources/files/sample-12s.mp3");
-        if(!testFile.exists()) {
-            Files.createDirectories(Paths.get(testFile.getPath())).toFile().deleteOnExit();
-        }
-        return testFile;
+        return ResourceUtils.getFile("src/test/resources/files/sample-12s.mp3");
     }
 }
