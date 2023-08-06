@@ -1,10 +1,9 @@
 package com.microservice.resourceservice.service;
 
-import com.microservice.resourceservice.config.CloudStorageRepository;
+import com.amazonaws.services.s3.model.S3Object;
 import com.microservice.resourceservice.domain.Resource;
 import com.microservice.resourceservice.domain.ResourceResponse;
 import com.microservice.resourceservice.domain.SongRecord;
-import com.microservice.resourceservice.domain.SongRecordId;
 import com.microservice.resourceservice.repository.ResourceRepository;
 import com.microservice.resourceservice.repository.SongRecordRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +14,11 @@ import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.mp3.Mp3Parser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.xml.sax.SAXException;
-import reactor.core.publisher.Mono;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -44,27 +42,21 @@ public class ResourceService {
     private final BodyContentHandler bodyContentHandler;
     private final S3StorageService s3StorageService;
     private final Metadata metadata;
-    private final WebClient webClient;
     private final Mp3Parser mp3Parser;
     private final ParseContext parseContext;
 
     public ResourceResponse saveResource(MultipartFile multipartFile) throws IOException, TikaException, SAXException {
-
-        SongRecord songRecord = extractSongRecordFromMetadata(multipartFile);
-
-        songRecordRepository.save(songRecord);
-        log.info("RESOURCEID: " + songRecord.getSongId());
-        Mono<SongRecordId> songRecordId = webClient
-                .method(HttpMethod.POST)
-                .uri(songServicePath)
-                .body(Mono.just(songRecord), SongRecord.class)
-                .retrieve()
-                .bodyToMono(SongRecordId.class);
-
-       // String uploadedFilePath = s3StorageService.save(multipartFile);
+        log.info("Saving file '{}'", multipartFile.getOriginalFilename());
+       // SongRecord songRecord = extractSongRecordFromMetadata(multipartFile);
+        String filePath = s3StorageService.upload(multipartFile);
+        Resource resource = Resource.builder()
+                .path(filePath)
+                .name(multipartFile.getOriginalFilename())
+                .build();
+        resourceRepository.save(resource);
 
         return ResourceResponse.builder()
-                .id(songRecordId.block().getId())
+                .id(resource.getId())
                 .build();
     }
 
@@ -77,8 +69,7 @@ public class ResourceService {
     private SongRecord extractSongRecordFromMetadata(MultipartFile multipartFile) throws IOException, TikaException, SAXException {
         File songFile = new File(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         FileInputStream inputstream = new FileInputStream(BASE_MP3_FILE_PATH + songFile.getPath());
-//        ParseContext pcontext = new ParseContext();
-//        Mp3Parser Mp3Parser = new Mp3Parser();
+
         mp3Parser.parse(inputstream, bodyContentHandler, metadata, parseContext);
         return SongRecord.builder()
                 .name(metadata.get("dc:title"))
@@ -102,7 +93,15 @@ public class ResourceService {
     }
 
     public String uploadFile(MultipartFile multipartFile) throws IOException {
-        String fileKey = s3StorageService.upload(multipartFile);
-        return fileKey;
+        String uploadedFilePath = s3StorageService.upload(multipartFile);
+        resourceRepository.save(Resource.builder()
+                .path(uploadedFilePath)
+                .build()
+        );
+        return uploadedFilePath;
+    }
+
+    public String downloadFile(String id) {
+        return s3StorageService.download(id);
     }
 }

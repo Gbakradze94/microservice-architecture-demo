@@ -33,7 +33,7 @@ $ cd microservice-architecture-demo
 $ mvn clean package dockerfile:build
 
 # Now we are going to use docker-compose to start the actual image.  To start the docker image, stay in the directory containing  your chapter 8 source code and  Run the following command: 
-$ docker-compose -f docker/docker-compose.yml up
+$ docker-compose -f docker/docker-compose-localstack.yml up
 ```
 
 # The build command
@@ -47,6 +47,16 @@ Will execute the [Spotify dockerfile plugin](https://github.com/spotify/dockerfi
 This command will run our services using the docker-compose.yml file located in the /docker directory. 
 
 If everything starts correctly you should see a bunch of Spring Boot information fly by on standard out.  At this point all of the services needed for the chapter code examples will be running.
+
+# Localstack
+To start localstack, from the main project directory run:
+docker-compose -f docker-compose-localstack.yml up -d --build
+
+To create a bucket on localstack aws s3 instance:
+aws --endpoint-url=http://localhost:4572 s3 mb s3://resource-service
+
+To put public acl on bucket:
+awslocal s3api put-bucket-acl --acl=public-read-write --bucket=resource-service
 
 # Database
 You can find the database script as well in the docker directory.
