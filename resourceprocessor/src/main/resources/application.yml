@@ -1,0 +1,3 @@
+
+# client configuration
+api-gateway.endpoint: lb://song-service
