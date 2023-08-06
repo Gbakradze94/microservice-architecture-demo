@@ -8,7 +8,7 @@ logging:
       hibernate: INFO
       hibernate.SQL: DEBUG
       hibernate.cache: DEBUG
-      hibernate.stat: DEBUG
+  hibernate.stat: DEBUG
 
 # datasource configuration
 spring:
@@ -20,8 +20,22 @@ spring:
     maxIdle: 30
     maxWait: 10000
     maxActive: 100
-  jpa.hibernate.ddl-auto: create-drop
-  database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    database: POSTGRESQL
 
 song-service:
   path: /api/v1/songs
+
+aws:
+  credentials:
+    access-key: AAAAAAAAAAAAAAAAAA
+    secret-key: kkkkkkkkkkkkkkkkkkkkkkkkk
+  s3:
+    endpoint-url: http://localhost:4566/
+    bucket-name: resource-service
+  region: us-west-1

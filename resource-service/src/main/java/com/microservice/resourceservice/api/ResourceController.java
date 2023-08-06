@@ -1,5 +1,6 @@
 package com.microservice.resourceservice.api;
 
+import com.amazonaws.services.s3.model.S3Object;
 import com.microservice.resourceservice.domain.Resource;
 import com.microservice.resourceservice.domain.ResourceResponse;
 import com.microservice.resourceservice.service.ResourceService;
@@ -31,7 +32,7 @@ public class ResourceController {
 
     private final ResourceService resourceService;
 
-    @PostMapping(consumes = {MediaType.ALL_VALUE},
+    @PutMapping(consumes = {MediaType.ALL_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     public ResourceResponse saveResource(@RequestParam("multipartFile") @Mp3FileType MultipartFile multipartFile) throws TikaException, IOException, SAXException {
@@ -53,5 +54,10 @@ public class ResourceController {
     @PutMapping("/upload")
     public String uploadFile(@RequestParam("multipartFile") @Mp3FileType MultipartFile multipartFile) throws IOException {
         return resourceService.uploadFile(multipartFile);
+    }
+
+    @GetMapping("/download/{id}")
+    public String download(@PathVariable String id) {
+       return resourceService.downloadFile(id);
     }
 }
