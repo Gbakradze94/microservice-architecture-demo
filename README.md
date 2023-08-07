@@ -63,7 +63,7 @@ You can find the database script as well in the docker directory.
 
 ## Contact
 
-I'd like you to send me an email on <Bakradzegeorge17.com> about anything you'd want to say about this software.
+I'd like you to send me an email on <Bakradzegeorge17@gmail.com> about anything you'd want to say about this software.
 
 ### Contributing
 Feel free to file an issue if it doesn't work for your code sample. Thanks.
