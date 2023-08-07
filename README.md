@@ -2,13 +2,16 @@
 
 # Introduction
 Welcome to Microservice Architecture Demo Project. This project demonstrates how to build 
-multiple microservices to communicate with each other. It contains the following modules:
+multiple microservices communicating with each other. The project contains the following 
+modules:
 1. A Spring Cloud Config server that is deployed as Docker container and can manage a services configuration information using a file system or GitHub-based repository.
 2. A Eureka server running as a Spring-Cloud based service. This service will allow multiple service instances to register with it. Clients that need to call a service will use Eureka to lookup the physical location of the target service.
 3. A API Gateway. All of our microservices can be routed through the gateway and have pre, response and post policies enforced on the calls.
 4. A song service
 5. A resource service.
-6. A Postgres SQL database used to hold the data for song service.
+6. A resource processor service, used to process song metadata.
+7. A Postgres SQL database used to hold the data for song service.
+8. A postgres SQL database used to hold the data for resource service.
 
 ## Initial Configuration
 1.	Apache Maven (http://maven.apache.org)  All of the code in this repository have been compiled with Java version 11.
@@ -49,13 +52,13 @@ This command will run our services using the docker-compose.yml file located in 
 If everything starts correctly you should see a bunch of Spring Boot information fly by on standard out.  At this point all of the services needed for the chapter code examples will be running.
 
 # Localstack
-To start localstack, from the main project directory run:
+## To start localstack, from the main project directory run:
 docker-compose -f docker-compose-localstack.yml up -d --build
 
 To create a bucket on localstack aws s3 instance:
 aws --endpoint-url=http://localhost:4572 s3 mb s3://resource-service
 
-To put public acl on bucket:
+## To put public acl on bucket:
 awslocal s3api put-bucket-acl --acl=public-read-write --bucket=resource-service
 
 # Database
