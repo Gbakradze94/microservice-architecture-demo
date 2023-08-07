@@ -8,9 +8,6 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "root"
       POSTGRES_DB:       "songservice_db"
-    volumes:
-        - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql
-        - ./data.sql:/docker-entrypoint-initdb.d/2-data.sql
     networks:
       backend:
         aliases:

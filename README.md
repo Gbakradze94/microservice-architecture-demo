@@ -22,7 +22,7 @@ To clone and run this application, you'll need [Git](https://git-scm.com), [Mave
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/ihuaylupo/manning-smia
+$ git clone https://github.com/Gbakradze94/microservice-architecture-demo.git
 
 # Navigate to the parent directory 
 # to build and run docker image
@@ -33,7 +33,7 @@ $ cd microservice-architecture-demo
 $ mvn clean package dockerfile:build
 
 # Now we are going to use docker-compose to start the actual image.  To start the docker image, stay in the directory containing  your chapter 8 source code and  Run the following command: 
-$ docker-compose -f docker/docker-compose-localstack.yml up
+$ docker-compose -f docker/docker-compose.yml up
 ```
 
 # The build command
