@@ -79,23 +79,6 @@ services:
       - "8080:8080"
     networks:
       - backend
-  resourceservice:
-    image: sparser/resource-service:0.0.1-SNAPSHOT
-    environment:
-      PROFILE: "dev"
-      CONFIGSERVER_URI: "http://configserver:8071"
-      CONFIGSERVER_PORT: "8071"
-      DATABASESERVER_PORT: "5431"
-      ENCRYPT_KEY: "IMSYMMETRIC"
-    depends_on:
-      database:
-        condition: service_healthy
-      configserver:
-        condition: service_started
-    ports:
-      - "8081:8081"
-    networks:
-      - backend
   resourceservicedb:
     image: postgres:latest
     ports:
@@ -103,10 +86,7 @@ services:
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "root"
-      POSTGRES_DB: "resourceservice_db"
-#    volumes:
-#      - ./init.sql:/docker-entrypoint-initdb.d/1-init.sql
-#      - ./data.sql:/docker-entrypoint-initdb.d/2-data.sql
+      POSTGRES_DB:       "resourceservicedb"
     networks:
       backend:
         aliases:
@@ -116,7 +96,43 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  resourceservice:
+    image: sparser/resource-service:0.0.1-SNAPSHOT
+    environment:
+      PROFILE: "dev"
+      CONFIGSERVER_URI: "http://configserver:8071"
+      CONFIGSERVER_PORT: "8071"
+      DATABASESERVER_PORT: "5432"
+      ENCRYPT_KEY: "IMSYMMETRIC"
+    depends_on:
+      resourceservicedb:
+        condition: service_healthy
+      configserver:
+        condition: service_started
+      localstack:
+        condition: service_started
+    ports:
+      - "8081:8081"
+    networks:
+      - backend
+      - localstack
+  localstack:
+    image: localstack/localstack
+    container_name: awslocal
+    hostname: localhost
+    environment:
+      DOCKER_HOST: unix:///var/run/docker.sock
+      HOST_TMP_FOLDER: /tmp/localstack
+      HOSTNAME_EXTERNAL: localhost
+    ports:
+      - "4566:4566"
+      - "8055:8080"
+    volumes:
+      - "./.localstack:/tmp/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+
 
 networks:
   backend:
     driver: bridge
+  localstack:

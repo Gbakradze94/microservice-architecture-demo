@@ -3,7 +3,7 @@ server:
 # application configuration
 logging:
   level:
-    root: DEBUG
+#    root: DEBUG
     org:
       hibernate: INFO
       hibernate.SQL: DEBUG
@@ -28,14 +28,11 @@ spring:
     show-sql: true
     database: POSTGRESQL
 
+aws:
+  s3:
+    endpoint-url: http://s3.localhost.localstack.cloud:4566
+    bucket-name: resources
+    region: us-east-1
+
 song-service:
   path: /api/v1/songs
-
-aws:
-  credentials:
-    access-key: AAAAAAAAAAAAAAAAAA
-    secret-key: kkkkkkkkkkkkkkkkkkkkkkkkk
-  s3:
-    endpoint-url: http://localhost:4566/
-    bucket-name: resource-service
-  region: us-west-1

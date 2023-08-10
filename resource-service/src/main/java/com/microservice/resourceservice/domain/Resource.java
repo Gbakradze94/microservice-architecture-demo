@@ -29,4 +29,5 @@ public class Resource {
     private LocalDateTime createdAt;
     @Column(length = 180, nullable = false)
     private String path;
+
 }

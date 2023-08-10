@@ -1,11 +1,15 @@
 package com.microservice.resourceservice.service;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 
 import java.io.IOException;
 
 import com.amazonaws.services.s3.model.S3Object;
+import com.microservice.resourceservice.config.AmazonS3Config;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.RandomStringUtils;
@@ -14,31 +18,33 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
+
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class S3StorageService {
     private static final String FILE_EXTENSION = "fileExtension";
+
     private final AmazonS3 s3;
-    private final String bucketName;
+//    @Value("${aws.s3.bucket-name}")
+//    private final String bucketName;
     //private static final Logger LOGGER = LoggerFactory.getLogger(S3StorageService.class);
 
-    @Autowired
-    public S3StorageService(AmazonS3 s3, @Value("${aws.s3.bucket-name}") String bucketName) {
-        this.s3 = s3;
-        this.bucketName = bucketName;
-        initializeBucket();
-    }
+    private final AmazonS3Config s3ClientConfig;
 
+
+    @PostConstruct
     private void initializeBucket() {
-        if (!s3.doesBucketExistV2(bucketName)) {
-            s3.createBucket(bucketName);
+        if (!s3.doesBucketExistV2(s3ClientConfig.getBucketName())) {
+            s3.createBucket(s3ClientConfig.getBucketName());
         }
     }
 
     public String upload(MultipartFile multipartFile) throws IOException {
         String key = multipartFile.getOriginalFilename();
-        s3.putObject(bucketName, key, multipartFile.getInputStream(), extractObjectMetadata(multipartFile));
-        String filePath = "http://localhost:4566/" + bucketName + "/" + key;
+        s3.putObject(s3ClientConfig.getBucketName(), key, multipartFile.getInputStream(), extractObjectMetadata(multipartFile));
+        String filePath = "http://localhost:4566/" + s3ClientConfig.getBucketName() + "/" + key;
         return filePath;
     }
 
@@ -54,13 +60,13 @@ public class S3StorageService {
     }
 
     public String download(String id) {
-        S3Object s3Object = s3.getObject(bucketName, id);
+        S3Object s3Object = s3.getObject(s3ClientConfig.getBucketName(), id);
         String fileName = id + "." + s3Object.getObjectMetadata().getContentLength();
         Long contentLength = s3Object.getObjectMetadata().getContentLength();
 
         log.info("FileName: " + fileName);
         log.info("contentLength " + contentLength);
-        s3.getObject(bucketName, id).getObjectContent();
+        s3.getObject(s3ClientConfig.getBucketName(), id).getObjectContent();
         return s3Object.getObjectMetadata().toString();
     }
 }

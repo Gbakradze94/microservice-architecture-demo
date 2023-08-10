@@ -2,17 +2,22 @@ version: '2'
 
 services:
   localstack:
-    image: localstack/localstack:0.10.6
+    image: localstack/localstack:latest
+    #    hostname: awslocal
     ports:
       - "4566:4566"
       - "8090:8090"
     environment:
-      - SERVICES=s3:4566
-      - HOSTNAME_EXTERNAL=localhost
+      - SERVICES=s3
+      - HOSTNAME_EXTERNAL=localstack
       - DEBUG=1
       - PORT_WEB_UI=8090
-      - AWS_DEFAULT_REGION=us-west-1
+      - AWS_DEFAULT_REGION=us-east-1
       - AWS_SECRET_ACCESS_KEY=kkkkkkkkkkkkkkkkkkkkkkkkk
       - AWS_ACCESS_KEY_ID=AAAAAAAAAAAAAAAAAA
+      - DOCKER_HOST=unix:///var/run/docker.sock
     volumes:
-      - ./localstack/:/docker-entrypoint-initaws.d/
+      - ~/tmp/localstack:/tmp/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+#    networks:
+#      - localstack

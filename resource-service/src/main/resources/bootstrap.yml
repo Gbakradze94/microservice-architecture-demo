@@ -7,5 +7,6 @@ spring:
     config:
       uri: http://configserver:8071
 
+
 song-service:
   path: /api/v1/songs
