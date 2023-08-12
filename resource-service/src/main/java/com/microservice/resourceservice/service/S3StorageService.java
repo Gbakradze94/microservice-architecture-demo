@@ -1,23 +1,15 @@
 package com.microservice.resourceservice.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-
 import java.io.IOException;
-
 import com.amazonaws.services.s3.model.S3Object;
 import com.microservice.resourceservice.config.AmazonS3Config;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.annotation.PostConstruct;
 
 @Service
@@ -25,12 +17,7 @@ import javax.annotation.PostConstruct;
 @Slf4j
 public class S3StorageService {
     private static final String FILE_EXTENSION = "fileExtension";
-
     private final AmazonS3 s3;
-//    @Value("${aws.s3.bucket-name}")
-//    private final String bucketName;
-    //private static final Logger LOGGER = LoggerFactory.getLogger(S3StorageService.class);
-
     private final AmazonS3Config s3ClientConfig;
 
 

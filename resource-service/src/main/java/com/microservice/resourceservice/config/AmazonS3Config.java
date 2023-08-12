@@ -1,9 +1,7 @@
 package com.microservice.resourceservice.config;
 
 import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -32,5 +30,4 @@ public class AmazonS3Config {
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(endpointUrl, region))
                 .build();
     }
-
 }

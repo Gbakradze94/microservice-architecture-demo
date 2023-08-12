@@ -121,7 +121,6 @@ services:
       - localstack-network
   localstack:
     image: localstack/localstack:latest
-#    hostname: localstack
     ports:
       - "4566:4566"
       - "8090:8090"
@@ -129,7 +128,6 @@ services:
       - resourceservice
     environment:
       - SERVICES=s3
-#      - HOSTNAME_EXTERNAL=localstack
       - DEBUG=1
       - PORT_WEB_UI=8090
       - AWS_DEFAULT_REGION=us-east-1

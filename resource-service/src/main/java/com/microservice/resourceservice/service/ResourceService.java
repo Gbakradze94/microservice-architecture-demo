@@ -1,9 +1,7 @@
 package com.microservice.resourceservice.service;
 
-import com.amazonaws.services.s3.model.S3Object;
 import com.microservice.resourceservice.domain.Resource;
 import com.microservice.resourceservice.domain.ResourceResponse;
-import com.microservice.resourceservice.domain.SongRecord;
 import com.microservice.resourceservice.repository.ResourceRepository;
 import com.microservice.resourceservice.repository.SongRecordRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.reactive.function.client.WebClient;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -21,8 +18,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ResourceService {
-
-
 
     @Value("${song-service.path}")
     private String songServicePath;

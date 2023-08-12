@@ -1,6 +1,5 @@
 package com.microservice.resourceservice.api;
 
-import com.amazonaws.services.s3.model.S3Object;
 import com.microservice.resourceservice.domain.Resource;
 import com.microservice.resourceservice.domain.ResourceResponse;
 import com.microservice.resourceservice.service.ResourceService;
@@ -27,7 +26,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 public class ResourceController {
-
     private final ResourceService resourceService;
 
     @PutMapping(consumes = {MediaType.ALL_VALUE},
@@ -36,7 +34,6 @@ public class ResourceController {
     public ResourceResponse saveResource(@RequestParam("multipartFile") @Mp3FileType MultipartFile multipartFile) throws IOException, SAXException {
         return resourceService.saveResource(multipartFile);
     }
-
 
     @GetMapping("/{id}")
     public Resource getResource(@PathVariable Long id) {
