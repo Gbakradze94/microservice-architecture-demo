@@ -114,11 +114,35 @@ services:
         condition: service_started
       localstack:
         condition: service_started
+      rabbitmq:
+        condition: service_started
     ports:
       - "8081:8081"
     networks:
       - backend
       - localstack-network
+      - rabbitmq
+  resourceprocessor:
+    container_name: resourceprocessor
+    image: sparser/resourceprocessor:0.0.1-SNAPSHOT
+    environment:
+      PROFILE: "dev"
+      CONFIGSERVER_URI: "http://configserver:8071"
+      CONFIGSERVER_PORT: "8071"
+      DATABASESERVER_PORT: "5432"
+      ENCRYPT_KEY: "IMSYMMETRIC"
+    links:
+      - localstack
+    depends_on:
+      configserver:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+    ports:
+      - "8083:8083"
+    networks:
+      - backend
+      - rabbitmq
   localstack:
     image: localstack/localstack:latest
     ports:
@@ -139,9 +163,19 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - localstack-network
+  rabbitmq:
+    container_name: rabbit_mq
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - rabbitmq
 
 networks:
   backend:
     driver: bridge
   localstack-network:
+    driver: bridge
+  rabbitmq:
     driver: bridge
