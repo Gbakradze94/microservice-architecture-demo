@@ -3,6 +3,8 @@ server:
 # application configuration
 logging:
   level:
+    com:
+      amazonaws: DEBUG
 #    root: DEBUG
     org:
       hibernate: INFO

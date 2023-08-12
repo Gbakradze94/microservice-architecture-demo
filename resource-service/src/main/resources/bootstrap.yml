@@ -8,5 +8,19 @@ spring:
       uri: http://configserver:8071
 
 
+#  datasource:
+#    url: dbc:postgresql://resourceservicedb:5432/resourceservicedb
+#    username: postgres
+#    password: root
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto=create-drop:
+#aws:
+#  s3:
+#    endpoint-url: http://localstack:4566
+#    bucket-name: resources
+#    region: us-east-1
+
 song-service:
   path: /api/v1/songs
