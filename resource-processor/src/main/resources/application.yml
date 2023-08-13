@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    config:
+      retry:
+        initialInterval: 1000
+        maxInterval: 2000
+        multiplier: 1.1
+        maxAttempts: 3
+web-client:
+  connection-timeout: 5000
+  response-timeout: 5000
+  read-timeout: 5000
+  write-timeout: 5000
+  base-url: lb://resource-service
