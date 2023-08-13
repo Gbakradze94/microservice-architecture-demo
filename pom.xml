@@ -28,7 +28,7 @@
         <module>song-service</module>
         <module>gatewayserver</module>
         <module>resource-service</module>
-        <module>resourceprocessor</module>
+        <module>resource-processor</module>
     </modules>
 
     <build>
