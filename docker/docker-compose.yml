@@ -114,14 +114,11 @@ services:
         condition: service_started
       localstack:
         condition: service_started
-      rabbitmq:
-        condition: service_started
     ports:
       - "8081:8081"
     networks:
       - backend
       - localstack-network
-      - rabbitmq
   resourceprocessor:
     container_name: resourceprocessor
     image: sparser/resourceprocessor:0.0.1-SNAPSHOT
@@ -136,13 +133,10 @@ services:
     depends_on:
       configserver:
         condition: service_started
-      rabbitmq:
-        condition: service_started
     ports:
       - "8083:8083"
     networks:
       - backend
-      - rabbitmq
   localstack:
     image: localstack/localstack:latest
     ports:
@@ -163,19 +157,43 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - localstack-network
-  rabbitmq:
-    container_name: rabbit_mq
-    image: rabbitmq:management
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.1
+    hostname: zookeeper
+    container_name: zookeeper
+    restart: always
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_SERVERS: zookeeper:2888:3888
     networks:
-      - rabbitmq
+      - backend
+  kafka-server-1:
+    image: confluentinc/cp-kafka:7.4.1
+    hostname: kafkaserver1
+    container_name: kafkaserver1
+    restart: always
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka1:19092,EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092,DOCKER://host.docker.internal:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,DOCKER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_ZOOKEEPER_CONNECT: "zoo1:2181"
+      KAFKA_BROKER_ID: 1
+      KAFKA_LOG4J_LOGGERS: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+      KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
+      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
+    depends_on:
+      - zookeeper
+    networks:
+      - backend
 
 networks:
   backend:
     driver: bridge
   localstack-network:
-    driver: bridge
-  rabbitmq:
     driver: bridge
