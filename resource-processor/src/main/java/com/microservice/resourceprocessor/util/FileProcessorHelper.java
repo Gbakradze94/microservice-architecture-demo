@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 @Slf4j
-public class FileProcessorHelper {
+public final class FileProcessorHelper {
     private static final String DIRECTORY = "src/main/resources";
     private static final String TEMP_DIRECTORY = "temp";
 

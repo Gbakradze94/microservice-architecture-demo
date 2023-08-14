@@ -1,16 +1,13 @@
-package com.microservice.resourceprocessor.domain;
+package com.microservice.resourceprocessor.event;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@ToString
-public class ResourceRecord {
+public class ResourceProcessedEvent {
+    private static final Long serialVersionUID = 1234567890L;
     private Long id;
 }

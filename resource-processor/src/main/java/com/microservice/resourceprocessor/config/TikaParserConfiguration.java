@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class TikaParserConfig {
+public class TikaParserConfiguration {
 
     @Bean
     public Mp3Parser mp3Parser() {

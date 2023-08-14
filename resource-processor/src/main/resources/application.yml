@@ -6,6 +6,16 @@ spring:
         maxInterval: 2000
         multiplier: 1.1
         maxAttempts: 3
+
+
+kafka:
+  topic:
+    resource-staging: resource-staging
+    resource-permanent: resource-permanent
+    properties:
+      partition-count: 3
+      replication-factor: 3
+
 web-client:
   connection-timeout: 5000
   response-timeout: 5000

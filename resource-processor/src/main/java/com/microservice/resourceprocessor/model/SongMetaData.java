@@ -1,4 +1,4 @@
-package com.microservice.resourceprocessor.domain;
+package com.microservice.resourceprocessor.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

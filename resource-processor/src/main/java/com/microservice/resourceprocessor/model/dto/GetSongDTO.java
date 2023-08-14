@@ -1,24 +1,21 @@
-package com.microservice.resourceprocessor.domain.dto;
+package com.microservice.resourceprocessor.model.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaveSongDTO implements Serializable {
+public class GetSongDTO implements Serializable {
     private static final long serialVersionUID = 1234567890L;
-    private Long id;
-    private Integer resourceId;
+    private long id;
+    private long resourceId;
     private String name;
     private String artist;
     private String album;
     private String length;
-    private String year;
-    private byte[] data;
+    private int year;
 }

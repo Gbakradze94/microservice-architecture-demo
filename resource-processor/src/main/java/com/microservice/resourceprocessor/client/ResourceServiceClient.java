@@ -17,7 +17,7 @@ import java.time.Duration;
 @Builder
 public class ResourceServiceClient {
 
-    private static final String RESOURCE_SERVICE_PATH = "/resources";
+    private static final String RESOURCE_SERVICE_PATH = "/api/v1/resources";
     private static final String ID_PATH_PARAM = "/{id}";
     private final WebClient webClient;
     private final RetryProperties retryProperties;

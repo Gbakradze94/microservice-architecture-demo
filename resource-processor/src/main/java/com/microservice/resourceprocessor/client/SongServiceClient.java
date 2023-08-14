@@ -1,32 +1,37 @@
 package com.microservice.resourceprocessor.client;
 
-import com.microservice.resourceprocessor.domain.SongMetaData;
-import com.microservice.resourceprocessor.domain.SongRecord;
+import com.microservice.resourceprocessor.model.SongMetaData;
+import com.microservice.resourceprocessor.model.dto.GetSongDTO;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreaker;
 import org.springframework.cloud.config.client.RetryProperties;
-import org.springframework.stereotype.Component;
+import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
 
-import java.util.Optional;
+import java.time.Duration;
 
 @RequiredArgsConstructor
 @Slf4j
 @Builder
 public class SongServiceClient {
-    private static final String PATH = "/api/v1/songs";
+    private static final String SONG_SERVICE_PATH = "/api/v1/songs";
     private final WebClient webClient;
     private final RetryProperties retryProperties;
     private final ReactiveCircuitBreaker reactiveCircuitBreaker;
 
-    public Optional<SongRecord> post(SongMetaData songMetaData) {
-        return Optional.ofNullable(webClient.post()
-                .uri(uriBuilder -> uriBuilder.path("http://localhost:8080/api/v1/songs").build())
+    public Mono<GetSongDTO> post(SongMetaData songMetaData) {
+        return webClient.post()
+                .uri(uriBuilder -> uriBuilder.path(SONG_SERVICE_PATH).build())
+                .accept(MediaType.APPLICATION_JSON)
                 .bodyValue(songMetaData)
                 .retrieve()
-                .bodyToMono(SongRecord.class)
-                .block());
+                .bodyToMono(GetSongDTO.class)
+                .transform(reactiveCircuitBreaker::run)
+                .retryWhen(Retry.backoff(retryProperties.getMaxAttempts(), Duration.ofMillis(retryProperties.getInitialInterval()))
+                        .doBeforeRetry(retrySignal -> log.info("Retrying request: attempt {}", retrySignal.totalRetriesInARow())));
     }
 }

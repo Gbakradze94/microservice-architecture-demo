@@ -1,12 +1,11 @@
-package com.microservice.resourceprocessor.domain.context;
+package com.microservice.resourceprocessor.model.context;
 
-import com.microservice.resourceprocessor.domain.dto.GetSongDTO;
-import com.microservice.resourceprocessor.domain.dto.SaveSongDTO;
+import com.microservice.resourceprocessor.model.SongMetaData;
+import com.microservice.resourceprocessor.model.dto.GetSongDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.With;
-
 import java.io.File;
 
 @Getter
@@ -14,8 +13,8 @@ import java.io.File;
 @NoArgsConstructor
 @With
 public class ResourceProcessingContext {
-  private long resourceId;
+  private Long resourceId;
   private File resourceFile;
-  private SaveSongDTO saveSongDTO;
+  private SongMetaData songMetaData;
   private GetSongDTO getSongDTO;
 }
