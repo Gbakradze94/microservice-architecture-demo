@@ -1,7 +1,7 @@
 package com.microservice.resourceprocessor.kafka;
 
 import com.microservice.resourceprocessor.model.Pair;
-import com.microservice.resourceprocessor.event.ResourceStagedEvent;
+import com.microservice.resourceprocessor.model.event.ResourceStagedEvent;
 import com.microservice.resourceprocessor.model.exception.ReceiverRecordException;
 import com.microservice.resourceprocessor.service.ReactiveKafkaEventListener;
 import lombok.extern.slf4j.Slf4j;

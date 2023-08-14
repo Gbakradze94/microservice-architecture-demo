@@ -1,6 +1,6 @@
 package com.microservice.resourceprocessor.service;
 
-import com.microservice.resourceprocessor.event.ResourceStagedEvent;
+import com.microservice.resourceprocessor.model.event.ResourceStagedEvent;
 import reactor.core.publisher.Mono;
 
 public class ResourceStagedEventListener implements ReactiveKafkaEventListener<ResourceStagedEvent> {

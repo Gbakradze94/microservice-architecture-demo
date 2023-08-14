@@ -1,0 +1,38 @@
+package com.microservice.resourceprocessor.config;
+
+import com.microservice.resourceprocessor.config.properties.TopicProperties;
+import com.microservice.resourceprocessor.model.Pair;
+import com.microservice.resourceprocessor.model.event.ResourceProcessedEvent;
+import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.kafka.config.TopicBuilder;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
+@TestConfiguration
+@EnableConfigurationProperties(TopicProperties.class)
+public class TopicConfiguration {
+    @Bean
+    NewTopic resourceTopic(TopicProperties properties) {
+        return TopicBuilder
+                .name(properties.getResourcePermanent())
+                .partitions(properties.getProperties().getPartitionCount())
+                .replicas(properties.getProperties().getReplicationFactor())
+                .build();
+    }
+
+    @Bean
+    public Map<Class<?>, Pair<String, Function<Object, ProducerRecord<String, Object>>>> publicationTopics(TopicProperties properties) {
+        Map<Class<?>, Pair<String, Function<Object, ProducerRecord<String, Object>>>> map = new HashMap<>();
+
+        map.put(ResourceProcessedEvent.class,
+                Pair.of(properties.getResourcePermanent(), message -> new ProducerRecord<>(properties.getResourcePermanent(),
+                        String.valueOf(((ResourceProcessedEvent) message).getId()), message)));
+
+        return map;
+    }
+}

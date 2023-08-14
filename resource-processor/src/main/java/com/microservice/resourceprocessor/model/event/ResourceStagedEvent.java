@@ -1,4 +1,4 @@
-package com.microservice.resourceprocessor.event;
+package com.microservice.resourceprocessor.model.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
