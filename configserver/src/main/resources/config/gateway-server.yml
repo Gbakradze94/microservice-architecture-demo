@@ -22,12 +22,13 @@ spring:
           - Path=/song/**
           filters:
           - StripPrefix=1
-        - id: licensing-service
-          uri: lb://licensing-service
+        - id: resource-service
+          uri: lb://resource-service
           predicates:
-          - Path=/license/**
+          - Path=/resource/**
           filters:
-          - RewritePath=/license/(?<path>.*), /$\{path}
+            - StripPrefix=1
+#          - RewritePath=/license/(?<path>.*), /$\{path}
 
 
        
