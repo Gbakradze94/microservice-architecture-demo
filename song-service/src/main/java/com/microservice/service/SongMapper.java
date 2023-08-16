@@ -1,16 +1,16 @@
 package com.microservice.service;
 
 import com.microservice.model.Song;
-import com.microservice.model.SongRecord;
+import com.microservice.model.SongMetaData;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SongMapper implements Converter<Song, SongRecord> {
+public class SongMapper implements Converter<Song, SongMetaData> {
 
     @Override
-    public SongRecord convert(Song song) {
-        return SongRecord.builder()
+    public SongMetaData convert(Song song) {
+        return SongMetaData.builder()
                 .songId(song.getSongId())
                 .name(song.getName())
                 .artist(song.getArtist())
@@ -21,15 +21,15 @@ public class SongMapper implements Converter<Song, SongRecord> {
                 .build();
     }
 
-    public Song mapToEntity(SongRecord songRecord) {
+    public Song mapToEntity(SongMetaData songMetaData) {
         return Song.builder()
-                .songId(songRecord.getResourceId())
-                .name(songRecord.getName())
-                .artist(songRecord.getArtist())
-                .album(songRecord.getAlbum())
-                .resourceId(songRecord.getResourceId())
-                .year(songRecord.getYear())
-                .length(songRecord.getLength())
+                .songId(songMetaData.getResourceId())
+                .name(songMetaData.getName())
+                .artist(songMetaData.getArtist())
+                .album(songMetaData.getAlbum())
+                .resourceId(songMetaData.getResourceId())
+                .year(songMetaData.getYear())
+                .length(songMetaData.getLength())
                 .build();
     }
 }

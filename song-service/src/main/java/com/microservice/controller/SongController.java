@@ -1,7 +1,7 @@
 package com.microservice.controller;
 
+import com.microservice.model.SongMetaData;
 import com.microservice.model.SongRecord;
-import com.microservice.model.SongRecordId;
 import com.microservice.service.SongService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,18 +27,18 @@ public class SongController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SongRecordId save(@RequestBody SongRecord songRecord) {
-        log.info("Saving a song metadata '{}'", songRecord);
-        return songService.save(songRecord);
+    public SongRecord save(@RequestBody SongMetaData songMetaData) {
+        log.info("Saving a song metadata '{}'", songMetaData);
+        return songService.save(songMetaData);
     }
 
     @GetMapping("/{id}")
-    public SongRecord getSong(@PathVariable Long id) {
+    public SongMetaData getSong(@PathVariable Long id) {
         return songService.getSongById(id);
     }
 
     @DeleteMapping
-    public List<SongRecordId> deleteSongs(@RequestParam("id") int[] ids) {
+    public List<SongRecord> deleteSongs(@RequestParam("id") int[] ids) {
         return songService.deleteByIds(ids);
     }
 }
