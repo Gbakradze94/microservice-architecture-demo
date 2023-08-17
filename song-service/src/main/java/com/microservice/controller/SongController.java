@@ -2,7 +2,7 @@ package com.microservice.controller;
 
 import com.microservice.model.SongMetaData;
 import com.microservice.model.SongRecord;
-import com.microservice.service.SongService;
+import com.microservice.service.SongServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,22 +23,22 @@ import java.util.List;
 @Slf4j
 public class SongController {
 
-    private final SongService songService;
+    private final SongServiceImpl songServiceImpl;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public SongRecord save(@RequestBody SongMetaData songMetaData) {
         log.info("Saving a song metadata '{}'", songMetaData);
-        return songService.save(songMetaData);
+        return songServiceImpl.save(songMetaData);
     }
 
     @GetMapping("/{id}")
     public SongMetaData getSong(@PathVariable Long id) {
-        return songService.getSongById(id);
+        return songServiceImpl.getSongById(id);
     }
 
     @DeleteMapping
     public List<SongRecord> deleteSongs(@RequestParam("id") int[] ids) {
-        return songService.deleteByIds(ids);
+        return songServiceImpl.deleteByIds(ids);
     }
 }

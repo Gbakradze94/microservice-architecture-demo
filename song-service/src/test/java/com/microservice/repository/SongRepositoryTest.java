@@ -1,6 +1,6 @@
 package com.microservice.repository;
 
-import com.microservice.controller.util.PostgresExtension;
+import com.microservice.util.PostgresExtension;
 import com.microservice.model.Song;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,7 +22,7 @@ public class SongRepositoryTest {
     private SongRepository songRepository;
 
     @Test
-    void shouldSaveSong() {
+    void shouldSaveSongWithCorrectValues() {
         Song song = Song.builder()
                 .resourceId(1)
                 .name("Speed King")
@@ -31,11 +31,9 @@ public class SongRepositoryTest {
                 .build();
         Song result = songRepository.save(song);
         assertNotNull(result);
-//        assertTrue(song.getId() > 0L);
-//        assertEquals(song.getResourceId(), result.getResourceId());
-//        assertEquals(song.getName(), result.getName());
-//        assertEquals(song.getLength(), result.getLength());
-//        assertNotNull(song.getCreatedDate());
-//        assertNotNull(song.getLastModifiedDate());
+        assertEquals(1, song.getSongId());
+        assertEquals(song.getResourceId(), result.getResourceId());
+        assertEquals(song.getName(), result.getName());
+        assertEquals(song.getLength(), result.getLength());
     }
 }

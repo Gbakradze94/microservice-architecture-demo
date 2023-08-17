@@ -1,8 +1,7 @@
 package com.microservice.controller;
 
-import com.microservice.model.SongRecord;
+import com.microservice.model.SongMetaData;
 import com.microservice.util.PostgresExtension;
-import org.junit.experimental.results.ResultMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -36,7 +34,7 @@ public class SongControllerTest {
 
     @Test
     void shouldSaveSong() throws Exception {
-        SongRecord songRecord = SongRecord.builder()
+        SongMetaData songMetaData = SongMetaData.builder()
                 .songId(1)
                 .name("Hey Jude")
                 .length("7:18")
@@ -47,9 +45,9 @@ public class SongControllerTest {
 
         ResultActions perform = mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/songs")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(songRecord)));
+                .content(objectMapper.writeValueAsString(songMetaData)));
 
         perform.andExpect(status().isCreated());
-        perform.andExpect(jsonPath("$.id", notNullValue()));
+        perform.andExpect(jsonPath("$.songId", notNullValue()));
     }
 }
