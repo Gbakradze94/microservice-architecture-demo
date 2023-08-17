@@ -23,13 +23,13 @@ public class ResourceService {
     private String songServicePath;
     private final ResourceRepository resourceRepository;
     private final SongRecordRepository songRecordRepository;
-    private final S3StorageService s3StorageService;
+    private final S3StorageRepository s3StorageRepository;
 
 
     public ResourceResponse saveResource(MultipartFile multipartFile) throws IOException {
         log.info("Saving file '{}'", multipartFile.getOriginalFilename());
        // SongRecord songRecord = extractSongRecordFromMetadata(multipartFile);
-        String filePath = s3StorageService.upload(multipartFile);
+        String filePath = s3StorageRepository.upload(multipartFile);
         Resource resource = Resource.builder()
                 .path(filePath)
                 .name(multipartFile.getOriginalFilename())
@@ -58,7 +58,7 @@ public class ResourceService {
     }
 
     public String uploadFile(MultipartFile multipartFile) throws IOException {
-        String uploadedFilePath = s3StorageService.upload(multipartFile);
+        String uploadedFilePath = s3StorageRepository.upload(multipartFile);
         resourceRepository.save(Resource.builder()
                 .path(uploadedFilePath)
                 .build()
@@ -67,6 +67,6 @@ public class ResourceService {
     }
 
     public String downloadFile(String id) {
-        return s3StorageService.download(id);
+        return s3StorageRepository.download(id);
     }
 }
