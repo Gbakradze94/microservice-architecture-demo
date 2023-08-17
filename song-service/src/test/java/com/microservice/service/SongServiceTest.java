@@ -14,8 +14,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.convert.converter.Converter;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest
 @ExtendWith(MockitoExtension.class)
 class SongServiceTest {
     @Mock
@@ -24,8 +27,8 @@ class SongServiceTest {
     @Mock
     private SongMapper songMapper;
 
-
     private SongService songService;
+
     @BeforeEach
     void setup() {
         songService = new SongServiceImpl(songRepository, songMapper);
@@ -40,6 +43,8 @@ class SongServiceTest {
                 .artist("Deep Purple")
                 .build();
 
+        when(songMapper.mapToEntity(any())).thenReturn(song);
+        when(songRepository.save(any())).thenReturn(song);
         SongMetaData songMetaData = SongMetaData.builder()
                 .songId(1)
                 .resourceId(1)
@@ -49,5 +54,8 @@ class SongServiceTest {
                 .build();
         SongRecord songRecord = songService.save(songMetaData);
         assertNotNull(songRecord);
+
+        verify(songMapper, times(1)).mapToEntity(any());
+        verify(songRepository, times(1)).save(any());
     }
 }

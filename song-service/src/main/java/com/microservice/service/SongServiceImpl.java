@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class SongServiceImpl implements SongService {
 
@@ -22,15 +22,8 @@ public class SongServiceImpl implements SongService {
     private final SongMapper songMapper;
 
 
-    public SongServiceImpl(SongRepository songRepository, SongMapper songMapper) {
-        this.songRepository = songRepository;
-        this.songMapper = songMapper;
-    }
-
     public SongRecord save(SongMetaData songMetaData) {
-        log.info("Inside save() method: " + songMapper.mapToEntity(songMetaData));
         Song song = songRepository.save(songMapper.mapToEntity(songMetaData));
-        log.info("ID: " + song.getSongId());
         return SongRecord.builder()
                 .songId(song.getSongId())
                 .build();
