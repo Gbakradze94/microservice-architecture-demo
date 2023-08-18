@@ -4,7 +4,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-
 import java.net.URISyntaxException;
 
 import static org.junit.jupiter.api.Assertions.assertSame;

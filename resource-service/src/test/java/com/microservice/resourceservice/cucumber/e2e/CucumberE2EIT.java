@@ -1,6 +1,5 @@
 package com.microservice.resourceservice.cucumber.e2e;
 
-import cloud.localstack.LocalstackTestRunner;
 import cloud.localstack.ServiceName;
 import cloud.localstack.docker.annotation.LocalstackDockerProperties;
 import io.cucumber.junit.Cucumber;
