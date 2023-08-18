@@ -26,7 +26,7 @@ public class Resource {
     private Integer id;
     private String name;
     private LocalDateTime createdAt;
-    @Column(length = 180, nullable = false)
+    @Column(length = 180)
     private String path;
 
 }

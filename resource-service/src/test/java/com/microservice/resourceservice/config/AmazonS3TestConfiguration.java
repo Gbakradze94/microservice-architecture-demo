@@ -59,15 +59,15 @@ public class AmazonS3TestConfiguration {
 //    @Value("${aws.s3.bucket-name}")
 //    private String amazonS3BucketName;
 
-    @Value("${aws.s3.endpoint}")
+    @Value("${aws.s3.endpoint-url}")
     private String amazonS3Endpoint;
 
     @Value("${aws.s3.region}")
     private String region;
-    @Value("${aws.s3.credentials.access-key}")
-    private String amazonS3AccessKey;
-    @Value("${aws.s3.credentials.secret-key}")
-    private String amazonS3SecretKey;
+//    @Value("${aws.s3.credentials.access-key}")
+//    private String amazonS3AccessKey;
+//    @Value("${aws.s3.credentials.secret-key}")
+//    private String amazonS3SecretKey;
     @Value("${aws.s3.bucket-name}")
     private String amazonS3BucketName;
     @Bean
@@ -84,13 +84,13 @@ public class AmazonS3TestConfiguration {
                 .build();
     }
 
-    private StaticCredentialsProvider getStaticCredentialsProvider() {
-        return StaticCredentialsProvider.create(getAwsBasicCredentials());
-    }
+//    private StaticCredentialsProvider getStaticCredentialsProvider() {
+//        return StaticCredentialsProvider.create(getAwsBasicCredentials());
+//    }
 
 
-    private AwsBasicCredentials getAwsBasicCredentials() {
-        return AwsBasicCredentials.create(amazonS3AccessKey,
-                amazonS3SecretKey);
-    }
+//    private AwsBasicCredentials getAwsBasicCredentials() {
+//        return AwsBasicCredentials.create(amazonS3AccessKey,
+//                amazonS3SecretKey);
+//    }
 }

@@ -19,6 +19,7 @@
         <docker.image.prefix>sparser</docker.image.prefix>
         <spring-cloud.version>Hoxton.SR1</spring-cloud.version>
         <aws-java-sdk-bom.version>1.11.1034</aws-java-sdk-bom.version>
+        <cucumber.version>7.13.0</cucumber.version>
     </properties>
 
     <dependencies>
@@ -126,6 +127,32 @@
             <artifactId>localstack</artifactId>
             <version>1.17.6</version>
         </dependency>
+        <dependency>
+            <groupId>cloud.localstack</groupId>
+            <artifactId>localstack-utils</artifactId>
+            <version>0.2.15</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-spring</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.masterthought</groupId>
+            <artifactId>cucumber-reporting</artifactId>
+            <version>5.7.5</version>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -148,6 +175,13 @@
                 <groupId>io.awspring.cloud</groupId>
                 <artifactId>spring-cloud-aws-dependencies</artifactId>
                 <version>3.0.0-RC1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-bom</artifactId>
+                <version>${cucumber.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -185,5 +219,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
