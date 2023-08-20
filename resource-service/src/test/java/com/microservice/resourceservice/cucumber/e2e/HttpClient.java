@@ -4,7 +4,6 @@ import com.microservice.resourceservice.domain.Resource;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.context.annotation.Scope;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -37,7 +35,7 @@ public class HttpClient {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
-    void performPostRequestToSaveResourceEndpoint(String path) throws URISyntaxException {
+    public void performPostRequestToSaveResourceEndpoint(String path) throws URISyntaxException {
         String url = URL + serverPort + path;
         RequestEntity<MultiValueMap<String, Object>> requestBody = buildRequest(url);
         response = testRestTemplate.exchange(requestBody, Resource.class);
