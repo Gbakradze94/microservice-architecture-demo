@@ -1,7 +1,7 @@
 package com.microservice.resourceservice;
 
 import com.microservice.resourceservice.config.AmazonS3TestConfiguration;
-import com.microservice.resourceservice.service.S3StorageServiceExtension;
+import com.microservice.resourceservice.util.S3StorageServiceExtension;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
