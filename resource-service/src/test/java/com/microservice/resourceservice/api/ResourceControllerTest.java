@@ -1,7 +1,7 @@
 package com.microservice.resourceservice.api;
 
 import com.microservice.resourceservice.domain.Resource;
-import com.microservice.resourceservice.service.ResourceService;
+import com.microservice.resourceservice.service.ResourceServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.multipart.MultipartFile;
 import org.xml.sax.SAXException;
 
 import java.io.File;
@@ -30,7 +29,7 @@ public class ResourceControllerTest {
     private ResourceController resourceController;
 
     @Mock
-    private ResourceService resourceService;
+    private ResourceServiceImpl resourceServiceImpl;
 
     @Test
     void getResource_shouldCallResourceService() {
@@ -39,11 +38,11 @@ public class ResourceControllerTest {
                 .name("")
                 .build();
 
-        when(resourceService.getResource(anyLong())).thenReturn(resource);
+        when(resourceServiceImpl.getResource(anyLong())).thenReturn(resource);
 
         resourceController.getResource(1L);
 
-        verify(resourceService, times(1)).getResource(1L);
+        verify(resourceServiceImpl, times(1)).getResource(1L);
     }
 
     @Test
@@ -54,9 +53,9 @@ public class ResourceControllerTest {
                 "audio/mpeg", Files.readAllBytes(file.toPath()));
 
         // when
-        resourceService.saveResource(mockMultipartFile);
+        resourceServiceImpl.saveResource(mockMultipartFile);
 
         // then
-        verify(resourceService, times(1)).saveResource(mockMultipartFile);
+        verify(resourceServiceImpl, times(1)).saveResource(mockMultipartFile);
     }
 }

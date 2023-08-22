@@ -3,7 +3,7 @@ package com.microservice.resourceservice.cucumber.component;
 
 import com.microservice.resourceservice.api.ResourceController;
 import com.microservice.resourceservice.cucumber.e2e.HttpClient;
-import com.microservice.resourceservice.service.ResourceService;
+import com.microservice.resourceservice.service.ResourceServiceImpl;
 import com.microservice.resourceservice.service.S3StorageRepository;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -24,7 +24,7 @@ public class ComponentTestsStepDefinition {
     private ResourceController resourceController;
 
     @Autowired
-    private ResourceService resourceService;
+    private ResourceServiceImpl resourceServiceImpl;
     @Autowired
     private HttpClient httpClient;
 

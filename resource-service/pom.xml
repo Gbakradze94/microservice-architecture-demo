@@ -186,6 +186,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -213,10 +214,16 @@
                         <phase>install</phase>
                         <goals>
                             <goal>build</goal>
-                            <goal>push</goal>
+                            <!--                            <goal>push</goal>-->
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <failIfNoTests>true</failIfNoTests>
+                </configuration>
             </plugin>
         </plugins>
     </build>
