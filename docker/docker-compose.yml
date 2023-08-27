@@ -120,8 +120,8 @@ services:
       - backend
       - localstack-network
   resourceprocessor:
-    container_name: resourceprocessor
-    image: sparser/resourceprocessor:0.0.1-SNAPSHOT
+    container_name: resource-processor
+    image: sparser/resource-processor:0.0.1-SNAPSHOT
     environment:
       PROFILE: "dev"
       CONFIGSERVER_URI: "http://configserver:8071"
