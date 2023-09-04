@@ -9,13 +9,21 @@ spring:
           lower-case-service-id: true
       routes:
         - id: resource-service
-          uri: http://localhost:8081/api/v1/resources
+          uri: lb://resource-service
           predicates:
             - Path=/resource/**
-
-#    loadbalancer:
-#      ribbon:
-#        enabled: false
+          filters:
+            - RewritePath=/resource/(?<path>.*), /$\{path}
+            - RemoveRequestHeader= Cookie,Set-Cookie
+        - id: song-service
+          uri: lb://song-service
+          predicates:
+            - Path=/song/**
+          filters:
+            - RewritePath=/song/(?<path>.*), /$\{path}
+    loadbalancer:
+      ribbon:
+        enabled: false
 #    config:
 #      enabled: false
 gateway:

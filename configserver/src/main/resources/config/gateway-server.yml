@@ -15,7 +15,7 @@ spring:
   cloud:
     loadbalancer.ribbon.enabled: false
     gateway:
-        routes:
+      routes:
         - id: song-service
           uri: lb://song-service
           predicates:
