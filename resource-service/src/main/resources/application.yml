@@ -23,6 +23,8 @@ spring:
     maxWait: 10000
     maxActive: 100
 
+  application:
+    name: resource-service
 
   jpa:
     hibernate:
@@ -38,3 +40,12 @@ aws:
 
 song-service:
   path: /api/v1/songs
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka

@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: resource-service
+          uri: http://localhost:8081/api/v1/resources
+          predicates:
+            - Path=/resource/**
+
+#    loadbalancer:
+#      ribbon:
+#        enabled: false
+#    config:
+#      enabled: false
+gateway:
+  service:
+    uri: http://localhost:9090
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+logging:
+  config: classpath:logback-spring-local.xml

@@ -58,6 +58,9 @@ docker-compose -f docker-compose-localstack.yml up -d --build
 To create a bucket on localstack aws s3 instance:
 aws --endpoint-url=http://localhost:4572 s3 mb s3://resource-service
 
+To run localstack image for local environment:
+docker run -e "SERVICES=s3:4566" -e "DEFAULT_REGION=us-west-2" -p 4566:4566 localstack/localstack
+
 ## To put public acl on bucket:
 awslocal s3api put-bucket-acl --acl=public-read-write --bucket=resource-service
 
