@@ -22,6 +22,9 @@ spring:
     maxIdle: 30
     maxWait: 10000
     maxActive: 100
+  data:
+    elasticsearch:
+      cluster-nodes: localhost:9200
 
   application:
     name: resource-service
@@ -49,5 +52,4 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
-#  config:
-#    classpath: logback-spring-local.xml
+
