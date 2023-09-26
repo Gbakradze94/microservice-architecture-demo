@@ -30,6 +30,7 @@
         <module>resource-service</module>
         <module>resource-processor</module>
         <module>storage-service</module>
+        <module>auth-server</module>
     </modules>
 
     <build>
