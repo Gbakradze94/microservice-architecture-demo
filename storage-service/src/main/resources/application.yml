@@ -1,5 +1,7 @@
 server:
   port: 8083
+#  servlet:
+#    context-path: /api/services
 # application configuration
 #logging:
 #  level:
@@ -25,6 +27,5 @@ spring:
 
   security:
     oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://auth-server:9000
+      resource:
+       user-info-uri: http://localhost:9000/api/auth/user

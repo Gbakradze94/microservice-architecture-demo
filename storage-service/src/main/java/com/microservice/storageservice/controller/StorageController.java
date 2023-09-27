@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -33,9 +34,9 @@ public class StorageController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public HttpEntity<Long> createStorageType(@RequestBody StorageTypeRequest storageTypeRequest) {
         Storage storage = Storage.builder()
-                .storageType(storageTypeRequest.storageType())
-                .bucket(storageTypeRequest.bucket())
-                .path(storageTypeRequest.path())
+                .storageType(storageTypeRequest.getStorageType())
+                .bucket(storageTypeRequest.getBucket())
+                .path(storageTypeRequest.getPath())
                 .build();
 
         return new HttpEntity<>(storageRepository.save(storage).getId());
@@ -51,6 +52,6 @@ public class StorageController {
                         .path(storage.getPath())
                         .build()
                 )
-                .toList());
+                .collect(Collectors.toList()));
     }
 }
