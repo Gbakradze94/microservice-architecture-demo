@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,16 +27,17 @@ public class ResourceServiceImpl implements ResourceService {
 
     public ResourceResponse saveResource(MultipartFile multipartFile) throws IOException {
         log.info("Saving file '{}'", multipartFile.getOriginalFilename());
-       // SongRecord songRecord = extractSongRecordFromMetadata(multipartFile);
         String filePath = s3StorageRepository.upload(multipartFile);
         Resource resource = Resource.builder()
                 .path(filePath)
+                .createdAt(LocalDateTime.now())
                 .name(multipartFile.getOriginalFilename())
                 .build();
         resourceRepository.save(resource);
 
         return ResourceResponse.builder()
                 .id(resource.getId())
+                .resourceUrl(filePath)
                 .build();
     }
 
@@ -51,19 +53,9 @@ public class ResourceServiceImpl implements ResourceService {
 
         return Arrays.stream(ids)
                 .mapToObj(i -> Integer.parseInt(String.valueOf(i)))
-                .map(ResourceResponse::new)
+                .map(i -> ResourceResponse.builder().id(i).build())
                 .collect(Collectors.toList());
     }
-
-    public String uploadFile(MultipartFile multipartFile) throws IOException {
-        String uploadedFilePath = s3StorageRepository.upload(multipartFile);
-        resourceRepository.save(Resource.builder()
-                .path(uploadedFilePath)
-                .build()
-        );
-        return uploadedFilePath;
-    }
-
     public String downloadFile(String id) {
         return s3StorageRepository.download(id);
     }
