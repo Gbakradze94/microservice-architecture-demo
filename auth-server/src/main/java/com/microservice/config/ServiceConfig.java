@@ -11,9 +11,13 @@ public class ServiceConfig extends GlobalAuthenticationConfigurerAdapter {
     @Override
     public void init(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
-                .withUser("user")
+                .withUser("admin")
                 .password(passwordEncoder().encode("1234"))
                 .roles("ADMIN");
+        auth.inMemoryAuthentication()
+                .withUser("user")
+                .password(passwordEncoder().encode("1234"))
+                .roles("USER");
     }
 
     @Bean
