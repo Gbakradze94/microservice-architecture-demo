@@ -22,3 +22,13 @@ spring:
     maxActive: 100
   jpa.hibernate.ddl-auto: create-drop
   database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
