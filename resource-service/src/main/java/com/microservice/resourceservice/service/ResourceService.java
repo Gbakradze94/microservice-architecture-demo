@@ -13,7 +13,5 @@ public interface ResourceService {
 
    List<ResourceResponse> deleteByIds(int[] ids);
 
-   String uploadFile(MultipartFile multipartFile) throws IOException;
-
    String downloadFile(String id);
 }

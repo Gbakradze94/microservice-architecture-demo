@@ -1,14 +1,18 @@
-package com.microservice.entity;
+package com.microservice.storageservice.entity;
 
 import com.microservice.storageservice.entity.StorageType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+@Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public record StorageTypeRequest(StorageType storageType,
-                                 String bucket,
-                                 String path) {
+public class StorageTypeRequest {
+   private StorageType storageType;
+   private String bucket;
+   private String path;
 }

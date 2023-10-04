@@ -1,14 +1,17 @@
 server:
   port: 8083
+
+#  servlet:
+#    context-path: /api/services
 # application configuration
-logging:
-  level:
-    root: DEBUG
-    org:
-      hibernate: INFO
-      hibernate.SQL: DEBUG
-      hibernate.cache: DEBUG
-      hibernate.stat: DEBUG
+#logging:
+#  level:
+#    root: DEBUG
+#    org:
+#      hibernate: INFO
+#      hibernate.SQL: DEBUG
+#      hibernate.cache: DEBUG
+#      hibernate.stat: DEBUG
 
 # datasource configuration
 spring:
@@ -21,4 +24,10 @@ spring:
     maxWait: 10000
     maxActive: 100
   jpa.hibernate.ddl-auto: create-drop
+
   database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  security:
+    oauth2:
+      resource:
+       user-info-uri: http://localhost:9000/api/auth/user

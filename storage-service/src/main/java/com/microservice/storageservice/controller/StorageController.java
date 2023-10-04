@@ -1,18 +1,23 @@
 package com.microservice.storageservice.controller;
 
-import com.microservice.entity.StorageTypeRequest;
-import com.microservice.storageservice.entity.Storage;
-import com.microservice.storageservice.entity.StorageType;
+
 import com.microservice.storageservice.entity.StorageTypeResponse;
 import com.microservice.storageservice.repository.StorageRepository;
 import com.microservice.storageservice.service.StorageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -34,6 +39,8 @@ public class StorageController {
         return new HttpEntity<>(storageRepository.save(storage).getId());
     }
 
+
+    @PreAuthorize(value = "hasAuthority('USER')")
     public HttpEntity<List<StorageTypeResponse>> getStorageTypes() {
         return new HttpEntity<>(storageRepository.findAll().stream()
                 .map(storage -> StorageTypeResponse.builder()
@@ -43,6 +50,6 @@ public class StorageController {
                         .path(storage.getPath())
                         .build()
                 )
-                .toList());
+                .collect(Collectors.toList()));
     }
 }

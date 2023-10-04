@@ -12,6 +12,7 @@ modules:
 6. A resource processor service, used to process song metadata.
 7. A Postgres SQL database used to hold the data for song service.
 8. A postgres SQL database used to hold the data for resource service.
+9. A storage service
 
 ## Initial Configuration
 1.	Apache Maven (http://maven.apache.org)  All of the code in this repository have been compiled with Java version 11.

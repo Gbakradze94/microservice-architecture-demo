@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.xml.sax.SAXException;
 import java.io.IOException;
 import java.util.List;
 
@@ -31,7 +30,8 @@ public class ResourceController {
     @PutMapping(consumes = {MediaType.ALL_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public ResourceResponse saveResource(@RequestParam("multipartFile") @Mp3FileType MultipartFile multipartFile) throws IOException, SAXException {
+    public ResourceResponse saveResource(@RequestParam("multipartFile") @Mp3FileType MultipartFile multipartFile)
+            throws IOException {
         return resourceService.saveResource(multipartFile);
     }
 
@@ -44,11 +44,6 @@ public class ResourceController {
     @ResponseStatus(HttpStatus.OK)
     public List<ResourceResponse> delete(@RequestParam("id") int[] ids) {
         return resourceService.deleteByIds(ids);
-    }
-
-    @PutMapping("/upload")
-    public String uploadFile(@RequestParam("multipartFile") @Mp3FileType MultipartFile multipartFile) throws IOException {
-        return resourceService.uploadFile(multipartFile);
     }
 
     @GetMapping("/download/{id}")

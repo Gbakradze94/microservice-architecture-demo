@@ -11,4 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ResourceResponse {
     private Integer id;
+    private String resourceUrl;
 }

@@ -5,12 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Builder
-public record StorageTypeResponse(Long id,
-                                  StorageType storageType,
-                                  String bucket,
-                                  String path) {
+@NoArgsConstructor
+@Data
+@AllArgsConstructor
+public class StorageTypeResponse {
+    private Long id;
+    private StorageType storageType;
+    private String bucket;
+    private String path;
 }
