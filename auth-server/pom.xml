@@ -8,6 +8,9 @@
         <version>2.2.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <groupId>com.microservice</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+
     <properties>
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <docker.image.prefix>sparser</docker.image.prefix>
@@ -68,6 +71,10 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
             <!-- This plugin is used to create a docker image and publish the image to docker hub-->
             <plugin>
                 <groupId>com.spotify</groupId>

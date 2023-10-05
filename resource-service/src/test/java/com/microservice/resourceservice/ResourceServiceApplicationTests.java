@@ -12,7 +12,7 @@ import org.springframework.test.context.TestPropertySource;
 @TestPropertySource("classpath:application.properties")
 @ExtendWith(S3StorageServiceExtension.class)
 @ContextConfiguration(classes = AmazonS3TestConfiguration.class)
-public class ResourceServiceApplicationTests {
+class ResourceServiceApplicationTests {
     @Test
     void contextLoads() {
     }
