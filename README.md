@@ -10,9 +10,10 @@ modules:
 4. A song service
 5. A resource service.
 6. A resource processor service, used to process song metadata.
-7. A Postgres SQL database used to hold the data for song service.
-8. A postgres SQL database used to hold the data for resource service.
-9. A storage service
+7. A storage service
+8. A Postgres SQL database used to hold the data for song service.
+9. A postgres SQL database used to hold the data for resource service.
+10. An authorization server to protect endpoints
 
 ## Initial Configuration
 1.	Apache Maven (http://maven.apache.org)  All of the code in this repository have been compiled with Java version 11.
@@ -62,8 +63,56 @@ aws --endpoint-url=http://localhost:4572 s3 mb s3://resource-service
 To run localstack image for local environment:
 docker run -e "SERVICES=s3:4566" -e "DEFAULT_REGION=us-west-2" -p 4566:4566 localstack/localstack
 
-## To put public acl on bucket:
+* To put public acl on bucket:
 awslocal s3api put-bucket-acl --acl=public-read-write --bucket=resource-service
+
+## Module descriptions and usage guides
+* Authorization Server: This module has a single controller with http POST handler method, 
+which is used to authenticate the user. <br/>
+In order to authenticate, make an 
+HTTP POST request to the endpoint 'localhost:9000/api/auth/oauth/token',
+with the following details (Using Insomnia API), Form-Url-Encoded headers:
+![img.png](img.png)
+</br>
+Credentials for USER role (Login: user, Password: 1234)
+<br/>
+Credentials for ADMIN role (Login: admin, Password: 1234)
+<br/>
+Use Basic authorization with login: demo42, and password: demo42secret.
+
+After sending an HTTP POST request on the endpoint above, with
+described information, the JSON response will look like
+the following:
+```json
+{
+  "access_token": "08583a2e-a650-4d99-8201-fa611e11c33f",
+  "token_type": "bearer",
+  "refresh_token": "acdcf778-9ec9-4b6a-bac3-4b4d37a53ac7",
+  "expires_in": 43199,
+  "scope": "read write"
+}
+```
+<br/> access_token must be passed 
+when making requests to storage-service
+<br/>
+* Logging and monitoring - Prometheus and Grafana are used for logging
+and monitoring. To log into Grafana, navigate to 
+http://localhost:3000
+
+## Set up Grafana's data source
+
+You can login to Grafana by `admin/admin`.
+You set up prometheus data source as follows.
+
+|item| value |
+|---|-----|
+|Type|Prometheus|
+|URL|http://localhost:9090|
+|Access|direct|
+|Scrap interval|5s|
+
+<br/>
+To use prometheus, navigate to http://localhost:9090/graph
 
 # Database
 You can find the database script as well in the docker directory.
